@@ -25,10 +25,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_Phone_no + " INTEGER)";
         db.execSQL(createTable);
-
-        SQLiteDatabase database = this.getWritableDatabase();
-
-        database.close();
     }
 
     @Override
@@ -52,10 +48,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
-        value.put(COLUMN_NAME,name);
-        value.put(COLUMN_Phone_no,phone_no);
+        value.put("name",name);
+        value.put("phone_no",phone_no);
 
-        db.insert(TABLE_NAME,null,value);
+        db.insert("ContactsDB",null,value);
 
     }
 }
