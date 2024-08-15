@@ -2,7 +2,6 @@ package com.example.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,10 +9,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "ContactsDB";
     private static final int DATABASE_VERSION = 1;
-//    private static final String TABLE_NAME = "mytable";
-//    private static final String COLUMN_ID = "_id";
-//    private static final String COLUMN_NAME = "name";
-//    private static final String COLUMN_Phone_no = "phone_no";
+    private static final String TABLE_NAME = "mytable";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_Phone_no = "phone_no";
 
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -21,13 +20,20 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE = "CREATE TABLE  mytable  (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone_no TEXT)";
-        db.execSQL(CREATE_TABLE);
+        String createTable = "CREATE TABLE " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " +
+                COLUMN_Phone_no + " INTEGER)";
+        db.execSQL(createTable);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        database.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS mytable");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
@@ -45,11 +51,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put("name",name);
-        values.put("phone_no",phone_no);
+        ContentValues value = new ContentValues();
+        value.put(COLUMN_NAME,name);
+        value.put(COLUMN_Phone_no,phone_no);
 
-        db.insert("mytable",null,values);
+        db.insert(TABLE_NAME,null,value);
 
     }
 }
